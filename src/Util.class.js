@@ -1,17 +1,15 @@
-const { objectExpression } = require("@babel/types");
-const Constrains = require("./constrains.class");
+const Constrains = require("./Constrains.class");
 
 class Util extends Constrains {
   filterByValue(array = [], key = "") {
-    this._isObject(array);
-    this._checkArrayOfObjects(array);
+    this._isArrayOfObjects(array);
 
     const filteredArray = array.filter((object) => object.hasOwnProperty(key));
     return filteredArray;
   }
 
-  find(array = [], value) {
-    this._isObject(array);
+  find(array = [], value = "") {
+    this._isArray(array);
     for (let element of array) {
       if (element === value) return element;
     }
@@ -20,8 +18,7 @@ class Util extends Constrains {
   }
 
   findInObj(array = [], key = "", value = "") {
-    this._isObject(array);
-    this._checkArrayOfObjects(array);
+    this._isArrayOfObjects(array);
 
     for(let object of array){
       let hasKey = object.hasOwnProperty(key);
@@ -34,24 +31,28 @@ class Util extends Constrains {
 
   removeVowels(string = "") {
     this._isString(string);
+
     const stringWithoutVowels = string.replace(/[aeiou]/gi, "").toLowerCase();
     return stringWithoutVowels;
   }
 
-  doubleOddNumbers(array) {
-    const oddNumbers = array.filter((element) => element % 2 != 0);
-    const doubledOddNumbers = oddNumbers.map((element) => element * 2);
+  doubleOddNumbers(array = []) {
+    this._isArrayOfNumbers(array);
+
+    const oddNumbers = array.filter((number) => number % 2 != 0);
+    const doubledOddNumbers = oddNumbers.map((number) => number * 2);
 
     return doubledOddNumbers;
   }
 
   extractKey(array = [], key = "") {
-    this._checkArrayOfObjects(array);
+    this._isArrayOfObjects(array);
 
-    const arrayOfValues = [];
+    let arrayOfValues = [];
 
     for (let object of array) {
-      if (object.hasOwnProperty(key)) arrayOfValues.push(object[key]);
+      if (object.hasOwnProperty(key)) 
+        arrayOfValues.push(object[key]);
     }
 
     return arrayOfValues;
@@ -60,7 +61,7 @@ class Util extends Constrains {
   extractValue(array = [], key = "") {
     //! Same as extractKey but use diferent methods
 
-    this._checkArrayOfObjects(array);
+    this._isArrayOfObjects(array);
 
     const filteredArray = array.filter((object) => {
       return object.hasOwnProperty(key);
@@ -95,7 +96,7 @@ class Util extends Constrains {
   }
 
   hasNoDuplicates(array = []) {
-    this._isObject(array);
+    this._isArray(array);
 
     let arrayCopy = [];
 
@@ -109,7 +110,7 @@ class Util extends Constrains {
   }
 
   addKeyAndValue(array = [], key = "", value = "") {
-    this._checkArrayOfObjects(array);
+    this._isArrayOfObjects(array);
 
     const newArray = array.map((object) => {
       object[key] = value;
@@ -120,7 +121,7 @@ class Util extends Constrains {
   }
 
   partition(array = [], callback = (element) => {}) {
-    this._isObject(array);
+    this._isArray(array);
     let partitionedArray = [[], []];
 
     for (let element of array) {
@@ -135,7 +136,7 @@ class Util extends Constrains {
   }
 
   hasCertainKey(array = [], key = "") {
-    this._checkArrayOfObjects(array);
+    this._isArrayOfObjects(array);
 
     for (let object of array) {
       let hasKey = object.hasOwnProperty(key);
