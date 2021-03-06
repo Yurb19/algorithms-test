@@ -2,7 +2,7 @@ const { test, expect } = require("@jest/globals");
 const Util = require("../Util.class");
 const util = new Util();
 
-// * globals
+// * globals Values
 
 const arrayOfObjects = [
   { first: "Elie", last: "Schoppik" },
